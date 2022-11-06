@@ -1,6 +1,6 @@
 {
     "name": "express-req-res-helper",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "prepublish": "npm run build",
     "description": "this is a utility package to help extract a header from http request",
     "main": "dist/index.js",
