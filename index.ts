@@ -11,12 +11,20 @@ const extractAuthorizationToken = (req: Request) => {
         return undefined;
     }
 
+    if (!BearerTokenParts[1].length) {
+        return undefined;
+    }
+
     return BearerTokenParts[1];
 };
 
 const extractSignature = (req: Request) => {
     const Signature = req.headers.signature;
     if (!Signature || typeof Signature !== "string") {
+        return undefined;
+    }
+
+    if (!Signature.length) {
         return undefined;
     }
 
