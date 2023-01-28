@@ -43,6 +43,7 @@ const getFullUrl = (req: Request) => {
 };
 
 const ExpressHelper = {
+    extractHeader,
     extractAuthorizationToken,
     extractSignature,
     extractProject,
