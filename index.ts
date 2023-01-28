@@ -1,9 +1,22 @@
 import { Request } from "express";
 
-const extractAuthorizationToken = (req: Request) => {
-    const BearerToken = req.headers.authorization;
-    if (!BearerToken || typeof BearerToken !== "string") {
+const extractHeader = (req: Request, key: string) => {
+    const value = req.headers[key];
+    if (!value || typeof value !== "string") {
         return undefined;
+    }
+
+    if (!value.length) {
+        return undefined;
+    }
+
+    return value;
+};
+
+const extractAuthorizationToken = (req: Request) => {
+    const BearerToken = extractHeader(req, "authorization");
+    if (!BearerToken) {
+        return BearerToken;
     }
 
     const BearerTokenParts = BearerToken.split(" ");
@@ -18,18 +31,11 @@ const extractAuthorizationToken = (req: Request) => {
     return BearerTokenParts[1];
 };
 
-const extractSignature = (req: Request) => {
-    const Signature = req.headers.signature;
-    if (!Signature || typeof Signature !== "string") {
-        return undefined;
-    }
+const extractSignature = (req: Request) => extractHeader(req, "signature");
 
-    if (!Signature.length) {
-        return undefined;
-    }
+const extractProject = (req: Request) => extractHeader(req, "project");
 
-    return Signature;
-};
+const extractEnvironment = (req: Request) => extractHeader(req, "environment");
 
 const getFullUrl = (req: Request) => {
     const protocol = req.hostname.includes("localhost") ? "http" : "https";
@@ -39,6 +45,8 @@ const getFullUrl = (req: Request) => {
 const ExpressHelper = {
     extractAuthorizationToken,
     extractSignature,
+    extractProject,
+    extractEnvironment,
     getFullUrl,
 };
 
