@@ -41,7 +41,7 @@ const extractEnvironment = (req: Request) => extractHeader(req, "environment");
 const getFullUrl = (req: Request) => {
     const protocol = req.hostname.includes("localhost") ? "http" : "https";
     // @ts-ignore
-    const port = protocol === "http" ? process.env.PORT || "" :"";
+    const port = protocol === "http" && process.env.PORT ? `:${process.env.PORT}` :"";
     return `${protocol}://${req.hostname}${port}${req.originalUrl}`;
 };
 
