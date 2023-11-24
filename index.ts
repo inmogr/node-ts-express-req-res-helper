@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Request } from "express";
 
 const extractHeader = (req: Request, key: string) => {
@@ -39,7 +40,9 @@ const extractEnvironment = (req: Request) => extractHeader(req, "environment");
 
 const getFullUrl = (req: Request) => {
     const protocol = req.hostname.includes("localhost") ? "http" : "https";
-    return `${protocol}://${req.hostname}${req.originalUrl}`;
+    // @ts-ignore
+    const port = protocol === "http" ? process.env.PORT || "" :"";
+    return `${protocol}://${req.hostname}${port}${req.originalUrl}`;
 };
 
 const ExpressHelper = {
